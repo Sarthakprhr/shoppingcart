@@ -1,6 +1,7 @@
 package com.training.shoppingCart.model;
 
 
+import com.sun.istack.NotNull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,17 +22,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private  int id;
-
+    @NotNull
     @Column( name = "name")
     private String username;
+
+    @NotNull
     @Column(name="email", unique = true)
     private String email;
+    @NotNull
     @Column(name="password")
     private String password;
      @Column(name="roles")
      private String roles;
-     @Column(name="tokens")
-    private String tokens;
+
 
 
     @OneToMany(mappedBy = "Users", cascade = CascadeType.ALL)
