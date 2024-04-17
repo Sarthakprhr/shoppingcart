@@ -1,5 +1,6 @@
 package com.training.shoppingCart.service.serviceImpl;
 
+import com.training.shoppingCart.DTO.ProductDto;
 import com.training.shoppingCart.model.Product;
 import com.training.shoppingCart.repository.ProductRepo;
 import com.training.shoppingCart.requestWrapper.ProductRequestWrapper;
@@ -36,6 +37,22 @@ public class ProductServiceImpl implements ProductService {
 
         // Save the updated product back to the database
         productRepository.save(existingProduct);
+    }
+
+    @Override
+    public ProductDto getStatistics(Integer id) {
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        ProductDto productDto = new ProductDto();
+        productDto.setName(existingProduct.getName());
+        productDto.setProductId(existingProduct.getProductId());
+        productDto.setPrice(existingProduct.getPrice());
+        productDto.setRating(existingProduct.getRating());
+        productDto.setExpiryDate(existingProduct.getExpiryDate());
+        productDto.setSoldUnits(existingProduct.getSoldUnits());
+        productDto.setManufacturerName(existingProduct.getManufacturerName());
+
+        return productDto;
     }
 }
 

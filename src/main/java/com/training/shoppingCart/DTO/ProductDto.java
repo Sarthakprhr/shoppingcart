@@ -17,4 +17,9 @@ public class ProductDto {
 
     @Column(name = "price")
     private int price;
+    private int expiryDate;
+    private String manufacturerName;
+    private int soldUnits;
+    private int rating;
+
 }

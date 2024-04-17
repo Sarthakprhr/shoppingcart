@@ -1,5 +1,6 @@
 package com.training.shoppingCart.controller;
 
+import com.training.shoppingCart.DTO.UserDto;
 import com.training.shoppingCart.constant.WebConstants;
 import com.training.shoppingCart.model.User;
 import com.training.shoppingCart.requestWrapper.UserRequestWrapper;
@@ -44,5 +45,27 @@ public class UserController {
         String message = messageSource.getMessage("userUpdateSuccess", null,  Locale.ENGLISH);
         JSONObject data = new JSONObject(WebConstants.KEY_STATUS_SUCCESS, 200, message);
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        // Call the service method to delete the user
+        String responseMessage = userservice.deleteUser(id);
+
+        // Return the response message
+        return ResponseEntity.ok(responseMessage);
+    }
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+        // Call the service method to get the user by username
+        UserDto userDto = userservice.getUserByUsername(username);
+
+        // Check if userDto is null
+        if (userDto == null) {
+            // Return 404 Not Found if the user is not found
+            return ResponseEntity.notFound().build();
+        }
+
+        // Return the userDto as the response body
+        return ResponseEntity.ok(userDto);
     }
 }
