@@ -20,9 +20,9 @@ public class UserRequestWrapper {
     private String email;
     @Column(name="password")
     private String password;
-
-    @Column(name="roles")
-    private String roles;
+//
+//    @Column(name="roles")
+//    private String roles;
 
 
 

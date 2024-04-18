@@ -9,6 +9,7 @@ import com.training.shoppingCart.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
     @PostMapping("/")
-    public ResponseEntity<JSONObject> createUser(@RequestBody UserRequestWrapper request )
+    public ResponseEntity<JSONObject> createUser(@RequestBody UserRequestWrapper request,@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization )
     {
         userservice.createUser(request);
         String message = messageSource.getMessage("userAddSuccess", null, Locale.ENGLISH);
@@ -38,7 +39,7 @@ public class UserController {
 
     //put-updateuser
     @PutMapping("/{userid}")
-    public ResponseEntity<JSONObject> updateUser (@RequestBody UserRequestWrapper request,
+    public ResponseEntity<JSONObject> updateUser (@RequestBody UserRequestWrapper request,@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization,
 
                                                   @PathVariable ("userid")Integer userid )
     {
@@ -48,7 +49,7 @@ public class UserController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id,@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization) {
         // Call the service method to delete the user
         String responseMessage = userservice.deleteUser(id);
 
@@ -56,13 +57,13 @@ public class UserController {
         return ResponseEntity.ok(responseMessage);
     }
     @GetMapping("/currentUser")
-    public String getCurrentUser(Principal principal)
+    public String getCurrentUser(Principal principal,@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization)
     {
        return principal.getName();
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username,@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization) {
         // Call the service method to get the user by username
         UserDto userDto = userservice.getUserByUsername(username);
 
